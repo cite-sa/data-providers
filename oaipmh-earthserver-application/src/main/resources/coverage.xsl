@@ -10,10 +10,10 @@
 			<dc:creator></dc:creator>
 			<dc:subject></dc:subject>
 			<dc:description>
-<!-- 			it gives namespace error during transformation -->
-<!-- 				<xsl:copy-of select="//*[local-name()='coveragedescription']" /> -->
+			it gives namespace error during transformation
+				<xsl:copy-of select="//*[local-name()='coveragedescription']" />
 			</dc:description>
-			<dc:publisher><xsl:value-of select="/server/@endpoint" /></dc:publisher> <!-- not working because /server is out of scope -->
+			<dc:publisher><xsl:value-of select="/server/@endpoint" /></dc:publisher> not working because /server is out of scope
 			<dc:contributor></dc:contributor>
 			<dc:date></dc:date>
 			<dc:type><xsl:value-of select="//*[local-name()='CoverageSubtype']" /></dc:type>

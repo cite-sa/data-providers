@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"	
+	xsi:schemaLocation="http://www.springframework.org/schema/beans	
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context.xsd">
+   
+   <context:property-placeholder location="classpath:oaipmh.properties" />
+   
+	<bean id="wcsAdapter" class="gr.cite.earthserver.wcs.adapter.WCSAdapter">
+		<constructor-arg value="${oaipmh.repository}"/>
+	</bean>
+	
+	<bean id="wcsRepository" class="gr.cite.oaipmh.application.femme.WCSRepository">
+		<constructor-arg ref="wcsAdapter" />
+	</bean>
+   
+   <bean id="oaipmhResource" class="gr.cite.oaipmh.resources.OAIPMHResource">
+   		<constructor-arg ref="wcsRepository" />
+   </bean>
+	
+	<context:annotation-config/>
+	<context:component-scan base-package="gr.cite.oaipmh.application"/>
+</beans>

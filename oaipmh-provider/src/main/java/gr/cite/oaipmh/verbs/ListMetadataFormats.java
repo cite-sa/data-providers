@@ -30,7 +30,7 @@ public class ListMetadataFormats extends Verb {
 	private String identifier = null;
 	private String requestURL;
 
-	public String response() {
+	public String response(Repository repository) {
 		initializeRootElement();
 		Element rootElement = xmlDocument.getDocumentElement();
 		Element requestElement = xmlDocument.createElement("request");
@@ -40,13 +40,13 @@ public class ListMetadataFormats extends Verb {
 		}
 		requestElement.setTextContent(requestURL);
 		rootElement.appendChild(requestElement);
-		Repository repository;
+		/*Repository repository;
 		try {
 			repository = RepositoryConnectionFactory.getRepository();
 		} catch (RepositoryRegistrationException e1) {
 			e1.printStackTrace();
 			return null;
-		}
+		}*/
 		List<Metadata> metadataFormats = null;
 		try {
 			if (identifier == null) {

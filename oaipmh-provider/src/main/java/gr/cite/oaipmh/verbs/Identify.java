@@ -21,19 +21,19 @@ public class Identify extends Verb {
 
 	private String requestURL;
 
-	public String response() {
+	public String response(Repository repository) {
 		initializeRootElement();
 
 		if (this.hasErrors()) {
 			appendErrorNodes();
 		} else {
-			Repository repository;
+			/*Repository repository;
 			try {
 				repository = RepositoryConnectionFactory.getRepository();
 			} catch (RepositoryRegistrationException e) {
 				e.printStackTrace();
 				return null;
-			}
+			}*/
 
 			Element rootElement = xmlDocument.getDocumentElement();
 			Element requestElement = xmlDocument.createElement("request");

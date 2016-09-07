@@ -1,6 +1,7 @@
 package gr.cite.oaipmh.verbs;
 
 import gr.cite.oaipmh.repository.FlowControl;
+import gr.cite.oaipmh.repository.Repository;
 import gr.cite.oaipmh.repository.ResumptionToken;
 import gr.cite.oaipmh.utils.OAIPMH;
 import gr.cite.oaipmh.utils.UTCDatetime;
@@ -111,7 +112,7 @@ public abstract class Verb {
 				+ returnedListFromRepositorySize);
 	}
 
-	abstract public String response();
+	abstract public String response(Repository repository);
 
 	abstract public void setAttributes(UriInfo req);
 }

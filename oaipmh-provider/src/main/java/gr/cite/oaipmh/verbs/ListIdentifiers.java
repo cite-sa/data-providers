@@ -21,8 +21,10 @@ import gr.cite.scarabaues.utils.xml.exceptions.XMLConversionException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.transform.TransformerException;
@@ -42,11 +44,11 @@ public class ListIdentifiers extends Verb {
 
 	protected String requestURL;
 
-	public String response() {
+	public String response(Repository repository) {
 		initializeRootElement();
 		List<Record> records;
 		try {
-			records = getRecords();
+			records = getRecords(repository);
 		} catch (RepositoryRegistrationException e1) {
 			e1.printStackTrace();
 			return null;
@@ -103,7 +105,12 @@ public class ListIdentifiers extends Verb {
 		/*requestURL = req.getRequestURL().toString();*/
 		requestURL = req.getAbsolutePath().toString();
 		/*Set<String> parameters = new HashSet<String>(Collections.list(req.getParameterNames()));*/
-		MultivaluedMap<String, String> parameters = req.getQueryParameters();
+		MultivaluedMap<String, String> parameters = new MultivaluedHashMap<>();
+		for (Entry<String, List<String>> queryParam: req.getQueryParameters().entrySet()) {
+			for (String queryParamValue: queryParam.getValue()) {
+				parameters.add(queryParam.getKey(), queryParamValue);				
+			}
+		}
 		if (parameters.containsKey("from")) {
 			from = new UTCDatetime(parameters.getFirst("from"));
 			parameters.remove("from");
@@ -132,8 +139,7 @@ public class ListIdentifiers extends Verb {
 		}
 	}
 
-	protected List<Record> getRecords() throws RepositoryRegistrationException {
-		Repository repository = RepositoryConnectionFactory.getRepository();
+	protected List<Record> getRecords(Repository repository) throws RepositoryRegistrationException {
 
 		try {
 			if ((until == null) && (from == null) && (set == null)

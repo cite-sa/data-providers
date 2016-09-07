@@ -1,11 +1,15 @@
 package gr.cite.oaipmh.repository;
 
+import javax.inject.Inject;
+
 /**
  * 
  * @author Ioannis Kavvouras
  * 
  */
 public class RepositoryConnectionFactory {
+	
+	@Inject
 	private static Repository repository;
 
 	private RepositoryConnectionFactory() {

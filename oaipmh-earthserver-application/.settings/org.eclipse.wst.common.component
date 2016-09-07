@@ -16,7 +16,7 @@
         <dependent-module archiveName="femme-client-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/femme-client/femme-client">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <dependent-module archiveName="femme-model-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/femme-model/femme-model">
+        <dependent-module archiveName="femme-core-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/femme-core/femme-core">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="java-output-path" value="/oaipmh-earthserver-application/target/classes"/>

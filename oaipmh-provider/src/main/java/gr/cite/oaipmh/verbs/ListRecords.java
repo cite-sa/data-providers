@@ -2,6 +2,7 @@ package gr.cite.oaipmh.verbs;
 
 import gr.cite.oaipmh.repository.FlowControl;
 import gr.cite.oaipmh.repository.Record;
+import gr.cite.oaipmh.repository.Repository;
 import gr.cite.oaipmh.repository.RepositoryRegistrationException;
 import gr.cite.oaipmh.repository.ResumptionToken;
 import gr.cite.oaipmh.utils.XMLUtils;
@@ -19,13 +20,13 @@ import org.w3c.dom.Element;
 public class ListRecords extends ListIdentifiers {
 	protected static Logger logger = LoggerFactory.getLogger(ListRecords.class);
 
-	public String response() {
+	public String response(Repository repository) {
 		initializeRootElement();
 		List<Record> records;
 		try {
-			records = getRecords();
-		} catch (RepositoryRegistrationException e1) {
-			e1.printStackTrace();
+			records = getRecords(repository);
+		} catch (RepositoryRegistrationException e) {
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 

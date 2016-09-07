@@ -4,6 +4,8 @@ import gr.cite.oaipmh.repository.Record;
 import gr.cite.oaipmh.repository.Repository;
 import gr.cite.oaipmh.repository.RepositoryConnectionFactory;
 import gr.cite.oaipmh.repository.RepositoryRegistrationException;
+import gr.cite.oaipmh.repository.SetSpec;
+import gr.cite.oaipmh.utils.UTCDatetime;
 import gr.cite.oaipmh.utils.XMLUtils;
 import gr.cite.oaipmh.verbs.errors.BadArgumentError;
 import gr.cite.oaipmh.verbs.errors.CannotDisseminateFormatError;
@@ -16,7 +18,10 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map.Entry;
 
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.transform.TransformerException;
 
@@ -32,7 +37,7 @@ public class GetRecord extends Verb {
 	private String identifier;
 	private String metadataPrefix;
 
-	public String response() {
+	public String response(Repository repository) {
 		initializeRootElement();
 		Element rootElement = xmlDocument.getDocumentElement();
 		Element requestElement = xmlDocument.createElement("request");
@@ -45,13 +50,6 @@ public class GetRecord extends Verb {
 		if (this.hasErrors()) {
 			appendErrorNodes();
 		} else {
-			Repository repository;
-			try {
-				repository = RepositoryConnectionFactory.getRepository();
-			} catch (RepositoryRegistrationException e1) {
-				logger.error(e1.getMessage(), e1);
-				return null;
-			}
 			try {
 				Record record = repository
 						.getRecord(identifier, metadataPrefix);
@@ -76,8 +74,29 @@ public class GetRecord extends Verb {
 	}
 
 	public void setAttributes(UriInfo req) {
-		/*requestURL = req.getRequestURL().toString();
-		Set<String> attributes = new HashSet<String>(Collections.list(req
+		requestURL = req.getAbsolutePath().toString();
+		
+		MultivaluedMap<String, String> parameters = new MultivaluedHashMap<>();
+		for (Entry<String, List<String>> queryParam: req.getQueryParameters().entrySet()) {
+			for (String queryParamValue: queryParam.getValue()) {
+				parameters.add(queryParam.getKey(), queryParamValue);				
+			}
+		}
+		if (parameters.containsKey("metadataPrefix")) {
+			metadataPrefix = parameters.getFirst("metadataPrefix");
+			parameters.remove("metadataPrefix");
+		}
+		if (parameters.containsKey("identifier")) {
+			identifier = parameters.getFirst("identifier");
+			parameters.remove("identifier");
+		}
+		parameters.remove("verb");
+		if (parameters.size() > 0) {
+			addError(new BadArgumentError());
+		}
+		
+		
+		/*Set<String> attributes = new HashSet<String>(Collections.list(req
 				.getParameterNames()));
 
 		attributes.remove("verb");

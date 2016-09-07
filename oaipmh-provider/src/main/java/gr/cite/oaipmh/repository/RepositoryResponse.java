@@ -29,13 +29,13 @@ public class RepositoryResponse {
 			this.request = request;
 		}
 		
-		public RepositoryResponseBuilder response() {
+		public RepositoryResponseBuilder response(Repository repository) {
 			response = request.getAbsolutePath().toString();
 			System.out.println(response);
 			try {
 				Verb verb = VerbFactory.getVerbFactoryMethod(request.getQueryParameters().getFirst("verb"));
 				verb.setAttributes(request);
-				this.response = verb.response();
+				this.response = verb.response(repository);
 			} catch (BadVerbError e) {
 				new VerbError();
 				this.response = "badVerbError";

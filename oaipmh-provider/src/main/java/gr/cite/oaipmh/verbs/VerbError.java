@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.Element;
 
 import gr.cite.oaipmh.repository.Record;
+import gr.cite.oaipmh.repository.Repository;
 import gr.cite.oaipmh.repository.RepositoryRegistrationException;
 import gr.cite.oaipmh.utils.XMLUtils;
 import gr.cite.oaipmh.verbs.errors.BadArgumentError;
@@ -21,7 +22,7 @@ public class VerbError extends Verb {
 	protected String requestURL;
 	
 	@Override
-	public String response() {
+	public String response(Repository repository) {
 		initializeRootElement();
 		
 		Element rootElement = xmlDocument.getDocumentElement();

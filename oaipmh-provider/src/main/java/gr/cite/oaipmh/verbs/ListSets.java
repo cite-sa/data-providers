@@ -32,16 +32,16 @@ public class ListSets extends Verb {
 	private String resumptionToken = null;
 	private String requestURL;
 
-	public String response() {
+	public String response(Repository repository) {
 		initializeRootElement();
 		List<SetSpec> setSpecs = null;
-		Repository repository;
+		/*Repository repository;
 		try {
 			repository = RepositoryConnectionFactory.getRepository();
 		} catch (RepositoryRegistrationException e1) {
 			e1.printStackTrace();
 			return null;
-		}
+		}*/
 
 		try {
 			if (resumptionToken == null) {

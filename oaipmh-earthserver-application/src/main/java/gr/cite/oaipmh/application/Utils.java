@@ -1,4 +1,4 @@
-package gr.cite.oaipmh.application;
+/*package gr.cite.oaipmh.application;
 
 public class Utils {
 	private static String XSLT_FILENAME = "coverage.xsl";
@@ -9,3 +9,4 @@ public class Utils {
 	}
 
 }
+*/
