@@ -9,18 +9,10 @@ import org.w3c.dom.Element;
 
 import gr.cite.oaipmh.utils.XMLUtils;
 
-/**
- * General Dublin Core Item {@link Metadata metadata}
- * @author Ioannis Kavvouras
- *
- */
-public class DCItem extends Metadata {
-	/**
-	 * the namespace of Dublin Core: <a href='http://purl.org/dc/elements/1.1/'>http://purl.org/dc/elements/1.1/</a>
-	 */
+public class DcItem extends Metadata {
 	public static final String DC_NAMESPACE = "http://purl.org/dc/elements/1.1/";
 
-	public DCItem(String prefix, String schemaLocation, String namespace) {
+	public DcItem(String prefix, String schemaLocation, String namespace) {
 		super(prefix, schemaLocation, namespace);
 	}
 
@@ -165,11 +157,9 @@ public class DCItem extends Metadata {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder builder = factory.newDocumentBuilder();
 		Document xmlDocument = builder.newDocument();
-		Element rootElement = xmlDocument.createElementNS(this.getNamespace(),
-				getPrefix() + ":dc");
-		rootElement.setAttributeNS(XMLUtils.XMLSCHEMA_INSTANCE,
-				"xsi:schemaLocation",
-				this.getNamespace() + " " + this.getSchema());
+
+		Element rootElement = xmlDocument.createElementNS(this.getNamespace(), getPrefix() + ":dc");
+		rootElement.setAttributeNS(XMLUtils.XMLSCHEMA_INSTANCE, "xsi:schemaLocation", this.getNamespace() + " " + this.getSchema());
 
 		rootElement.setAttribute("xmlns:dc", DC_NAMESPACE);
 
@@ -178,7 +168,7 @@ public class DCItem extends Metadata {
 		createDCElement(rootElement, "subject", subject, xmlDocument);
 		createDCElement(rootElement, "description", description, xmlDocument);
 		createDCElement(rootElement, "publisher", publisher, xmlDocument);
-		createDCElement(rootElement, "dontributor", contributor, xmlDocument);
+		createDCElement(rootElement, "contributor", contributor, xmlDocument);
 		createDCElement(rootElement, "date", date, xmlDocument);
 		createDCElement(rootElement, "type", type, xmlDocument);
 		createDCElement(rootElement, "format", format, xmlDocument);

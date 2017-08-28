@@ -1,14 +1,12 @@
-package gr.cite.oaipmh.resources;
+package gr.cite.oaipmh.application.resources;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.slf4j.Logger;
@@ -16,30 +14,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import gr.cite.oaipmh.repository.Repository;
-import gr.cite.oaipmh.repository.RepositoryConnectionFactory;
-import gr.cite.oaipmh.repository.RepositoryRegistrationException;
 import gr.cite.oaipmh.repository.RepositoryResponse;
 
 @Component
-@Path("/oaipmh")
+@Path("")
 @Produces(MediaType.TEXT_XML)
-public class OAIPMHResource {
+public class OaiPmhResource {
+	private static final Logger logger = LoggerFactory.getLogger(OaiPmhResource.class);
 	
-	Logger logger = LoggerFactory.getLogger(OAIPMHResource.class);
-	
-	Repository repository;
-	
+	private Repository repository;
 	
 	@Inject
-	public OAIPMHResource(Repository repository) {
+	public OaiPmhResource(Repository repository) {
 		this.repository = repository;
 	}
 	
 	@GET
 	@Path("/ping")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String ping() {
-		return "pong";
+	public Response ping() {
+		return Response.ok("pong").build();
 	}
 	
 	@GET

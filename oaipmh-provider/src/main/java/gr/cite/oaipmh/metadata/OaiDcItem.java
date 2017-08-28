@@ -2,14 +2,11 @@ package gr.cite.oaipmh.metadata;
 
 import gr.cite.oaipmh.utils.OAIPMH;
 
-/**
- * OAI {@link DCItem dublin core item}
- * @author Ioannis Kavvouras
- *
- */
-public class OAIDCItem extends DCItem {
+import javax.xml.bind.annotation.XmlRootElement;
 
-	public OAIDCItem() {
+public class OaiDcItem extends DcItem {
+
+	public OaiDcItem() {
 		super("oai_dc", OAIPMH.OAI_SCHEMA_LOCATION, OAIPMH.OAI_NAMESPACE);
 	}
 

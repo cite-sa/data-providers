@@ -31,7 +31,9 @@ public class RepositoryResponse {
 		
 		public RepositoryResponseBuilder response(Repository repository) {
 			response = request.getAbsolutePath().toString();
+
 			System.out.println(response);
+
 			try {
 				Verb verb = VerbFactory.getVerbFactoryMethod(request.getQueryParameters().getFirst("verb"));
 				verb.setAttributes(request);

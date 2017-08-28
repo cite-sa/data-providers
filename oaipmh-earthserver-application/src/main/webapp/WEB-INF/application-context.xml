@@ -11,15 +11,15 @@
    
    <context:property-placeholder location="classpath:oaipmh.properties" />
    
-	<bean id="wcsAdapter" class="gr.cite.earthserver.wcs.adapter.WCSAdapter">
-		<constructor-arg value="${oaipmh.repository}"/>
+	<bean id="femmeClient" class="gr.cite.femme.client.FemmeClient">
+		<constructor-arg value="${gr.cite.earthserver.oaipmh.repository.endpoint}"/>
 	</bean>
 	
 	<bean id="wcsRepository" class="gr.cite.oaipmh.application.femme.WCSRepository">
-		<constructor-arg ref="wcsAdapter" />
+		<constructor-arg ref="femmeClient" />
 	</bean>
    
-   <bean id="oaipmhResource" class="gr.cite.oaipmh.resources.OAIPMHResource">
+   <bean id="oaiPmhResource" class="gr.cite.oaipmh.application.resources.OaiPmhResource">
    		<constructor-arg ref="wcsRepository" />
    </bean>
 	

@@ -24,7 +24,7 @@ import gr.cite.oaipmh.utils.OAIPMH;
  * @author Ioannis Kavvouras
  * 
  */
-public class XSLTMetadata extends Metadata {
+public class XsltMetadata extends Metadata {
 
 	private final Element elementToTransform;
 	private final String XSLTfilename;
@@ -37,7 +37,7 @@ public class XSLTMetadata extends Metadata {
 	 * @param XSLTfilename
 	 *            the path of the filename that contains the xsl transformation.
 	 */
-	public XSLTMetadata(Element elementToTransform, String XSLTfilename) {
+	public XsltMetadata(Element elementToTransform, String XSLTfilename) {
 		super("oai_dc", OAIPMH.OAI_SCHEMA_LOCATION, OAIPMH.OAI_NAMESPACE);
 
 		this.elementToTransform = elementToTransform;

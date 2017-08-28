@@ -142,37 +142,20 @@ public class ListIdentifiers extends Verb {
 	protected List<Record> getRecords(Repository repository) throws RepositoryRegistrationException {
 
 		try {
-			if ((until == null) && (from == null) && (set == null)
-					&& (resumptionToken == null)) {
+			if (until == null && from == null && set == null && resumptionToken == null) {
 				return repository.getRecords(metadataPrefix);
-			} else if ((until != null) || (from != null) && (set == null)
-					&& (resumptionToken == null)) {
+			} else if (until != null || from != null && set == null && resumptionToken == null) {
 				return repository.getRecords(from, until, metadataPrefix);
-			} else if ((until == null) && (from == null) && (set != null)
-					&& (resumptionToken == null)) {
+			} else if (until == null && from == null && set != null	&& resumptionToken == null) {
 				return repository.getRecords(metadataPrefix, set);
-			} else if ((until == null) && (from == null) && (set == null)
-					&& (resumptionToken != null)) {
-				return repository.getRecords(metadataPrefix,
-						new ResumptionToken(resumptionToken));
-			} else if ((until == null) && (from == null) && (set != null)
-					&& (resumptionToken != null)) {
-				return repository.getRecords(metadataPrefix,
-						new ResumptionToken(resumptionToken), set);
+			} else if (until == null && from == null && set == null && resumptionToken != null) {
+				return repository.getRecords(metadataPrefix, new ResumptionToken(resumptionToken));
+			} else if (until == null && from == null && set != null && resumptionToken != null) {
+				return repository.getRecords(metadataPrefix, new ResumptionToken(resumptionToken), set);
 			} else {
-				return repository.getRecords(from, until, metadataPrefix,
-						new ResumptionToken(resumptionToken), set);
+				return repository.getRecords(from, until, metadataPrefix, new ResumptionToken(resumptionToken), set);
 			}
-		} catch (CannotDisseminateFormatError e) {
-			addError(e);
-			logger.info("ErrorCondition: " + e.getCode());
-		} catch (NoRecordsMatchError e) {
-			addError(e);
-			logger.info("ErrorCondition: " + e.getCode());
-		} catch (NoSetHierarchyError e) {
-			addError(e);
-			logger.info("ErrorCondition: " + e.getCode());
-		} catch (BadResumptionTokenError e) {
+		} catch (CannotDisseminateFormatError | NoRecordsMatchError | NoSetHierarchyError | BadResumptionTokenError e) {
 			addError(e);
 			logger.info("ErrorCondition: " + e.getCode());
 		}
