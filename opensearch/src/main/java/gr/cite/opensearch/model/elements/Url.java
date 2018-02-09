@@ -1,10 +1,10 @@
-package gr.cite.opensearch.model;
+package gr.cite.opensearch.model.elements;
+
+import gr.cite.opensearch.model.elements.RelValue;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import java.net.URI;
-import java.net.URL;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Url {

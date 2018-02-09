@@ -1,4 +1,4 @@
-package gr.cite.opensearch.model;
+package gr.cite.opensearch.model.elements;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

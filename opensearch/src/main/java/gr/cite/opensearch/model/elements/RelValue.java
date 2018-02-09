@@ -1,4 +1,4 @@
-package gr.cite.opensearch.model;
+package gr.cite.opensearch.model.elements;
 
 public enum RelValue {
 	RESULTS("results"),

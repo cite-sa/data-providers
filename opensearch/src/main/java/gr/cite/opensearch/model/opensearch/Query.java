@@ -1,14 +1,8 @@
-package gr.cite.opensearch.model;
+package gr.cite.opensearch.model.opensearch;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.math.BigInteger;
 
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "QueryType")
 public class Query {
 
     public enum RoleValue {
@@ -30,28 +24,26 @@ public class Query {
         }
     }
 
-    @XmlAttribute(name = "role", required = true)
     private String role;
-    @XmlAttribute(name = "title")
     private String title;
-    @XmlAttribute(name = "totalResults")
+
     private BigInteger totalResults;
-    @XmlAttribute(name = "searchTerms")
+
     private String searchTerms;
-    @XmlAttribute(name = "count")
+
     private BigInteger count;
-    @XmlAttribute(name = "startIndex")
+
     private BigInteger startIndex;
-    @XmlAttribute(name = "startPage")
+
     private BigInteger startPage;
-    @XmlAttribute(name = "language")
-    @XmlSchemaType(name = "anySimpleType")
+
     private String language;
-    @XmlAttribute(name = "inputEncoding")
+
     private String inputEncoding;
-    @XmlAttribute(name = "outputEncoding")
+
     private String outputEncoding;
 
+    @XmlAttribute(name = "role", required = true)
     public String getRole() {
         return role;
     }
@@ -60,6 +52,7 @@ public class Query {
         this.role = value;
     }
 
+    @XmlAttribute(name = "title")
     public String getTitle() {
         return title;
     }
@@ -68,6 +61,7 @@ public class Query {
         this.title = value;
     }
 
+    @XmlAttribute(name = "totalResults")
     public BigInteger getTotalResults() {
         return totalResults;
     }
@@ -76,6 +70,7 @@ public class Query {
         this.totalResults = value;
     }
 
+    @XmlAttribute(name = "searchTerms")
     public String getSearchTerms() {
         return searchTerms;
     }
@@ -84,6 +79,7 @@ public class Query {
         this.searchTerms = value;
     }
 
+    @XmlAttribute(name = "count")
     public BigInteger getCount() {
         return count;
     }
@@ -91,7 +87,7 @@ public class Query {
     public void setCount(BigInteger value) {
         this.count = value;
     }
-
+    @XmlAttribute(name = "startIndex")
     public BigInteger getStartIndex() {
         return startIndex;
     }
@@ -99,7 +95,7 @@ public class Query {
     public void setStartIndex(BigInteger value) {
         this.startIndex = value;
     }
-
+    @XmlAttribute(name = "startPage")
     public BigInteger getStartPage() {
         return startPage;
     }
@@ -108,6 +104,7 @@ public class Query {
         this.startPage = value;
     }
 
+    @XmlAttribute(name = "language")
     public String getLanguage() {
         if (language == null) {
             return "*";
@@ -119,7 +116,7 @@ public class Query {
     public void setLanguage(String value) {
         this.language = value;
     }
-
+    @XmlAttribute(name = "inputEncoding")
     public String getInputEncoding() {
         if (inputEncoding == null) {
             return "UTF-8";
@@ -131,7 +128,7 @@ public class Query {
     public void setInputEncoding(String value) {
         this.inputEncoding = value;
     }
-
+    @XmlAttribute(name = "outputEncoding")
     public String getOutputEncoding() {
         return outputEncoding;
     }
