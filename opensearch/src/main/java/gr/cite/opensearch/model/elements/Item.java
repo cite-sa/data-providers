@@ -1,6 +1,7 @@
 package gr.cite.opensearch.model.elements;
 
 import javax.xml.bind.annotation.XmlElement;
+import java.util.List;
 
 public class Item {
 
@@ -14,14 +15,14 @@ public class Item {
     private String guid;
     private String pubDate;
     private String source;
-    private Content content;
+    private List<Content> content;
 
     @XmlElement(name = "content")
-    public Content getContent() {
+    public List<Content> getContent() {
         return content;
     }
 
-    public void setContent(Content content) {
+    public void setContent(List<Content> content) {
         this.content = content;
     }
 

@@ -1,6 +1,7 @@
 package gr.cite.opensearch.model.elements;
 
 import javax.xml.bind.annotation.*;
+import java.util.List;
 
 @XmlRootElement(name="entry")
 public class Entry {
@@ -8,7 +9,7 @@ public class Entry {
     private int id;
     private String title;
     private String updated;
-    private Content content;
+    private List<Content> content;
 
     private Link link;
     private String summary;
@@ -39,11 +40,11 @@ public class Entry {
         this.updated = updated;
     }
     @XmlElement(name = "content")
-    public Content getContent() {
+    public List<Content> getContent() {
         return content;
     }
 
-    public void setContent(Content content) {
+    public void setContent(List<Content> content) {
         this.content = content;
     }
     @XmlElement(name = "link")

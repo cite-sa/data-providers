@@ -1,9 +1,6 @@
 package gr.cite.opensearch.utils;
 
-import gr.cite.opensearch.model.elements.Channel;
-import gr.cite.opensearch.model.elements.Content;
-import gr.cite.opensearch.model.elements.Entry;
-import gr.cite.opensearch.model.elements.Item;
+import gr.cite.opensearch.model.elements.*;
 import gr.cite.opensearch.model.femme.FulltextDocument;
 import gr.cite.opensearch.model.femme.FulltextField;
 import gr.cite.opensearch.model.femme.FulltextSearchQueryMessenger;
@@ -13,7 +10,11 @@ import gr.cite.opensearch.model.opensearch.Query;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.Arrays.asList;
 
 public class ConversionUtils {
     private static MapAdapter mapAdapter = new MapAdapter();
@@ -47,13 +48,26 @@ public class ConversionUtils {
         for (FulltextDocument doc : fulltextDocuments){
             Entry entry = new Entry();
             Content content = new Content();
+            Content dataContent = new Content();
+            Content metadataContent = new Content();
+            dataContent.setType("element");
+            MapElements elementMap = new MapElements(doc.getElementId(), "http://femme/dataElements/"+doc.getElementId());
+            dataContent.setEntry(elementMap);
+            metadataContent.setType("metadata");
+            MapElements metadataMap = new MapElements(doc.getMetadatumId(),"http://femme/dataElements/id/metadata/"+doc.getMetadatumId());
+            metadataContent.setEntry(metadataMap);
+
             content.setType("fulltext");
-            content.setId(doc.getId());
-            content.setElementId(doc.getElementId());
+            content.setId(doc.getElementId());
+//            content.setElementId(doc.getElementId());
             content.setMetadatumId(doc.getMetadatumId());
             content.setMapProperty(doc.getFulltextFields());
-            entry.setContent(content);
+
+            List<Content> contents = asList(content,dataContent,metadataContent);
+
+            entry.setContent(contents);
             entries.add(entry);
+
         }
         response.setEntry(entries);
         return response;
@@ -68,11 +82,24 @@ public class ConversionUtils {
             Item item = new Item();
             Content content = new Content();
             content.setType("fulltext");
-            content.setId(doc.getId());
-            content.setElementId(doc.getElementId());
+            content.setId(doc.getElementId());
+//            content.setElementId(doc.getElementId());
             content.setMetadatumId(doc.getMetadatumId());
             content.setMapProperty(doc.getFulltextFields());
-            item.setContent(content);
+
+            Content dataContent = new Content();
+            Content metadataContent = new Content();
+            dataContent.setType("element");
+            MapElements elementMap = new MapElements(doc.getElementId(), "http://femme/dataElements/"+doc.getElementId());
+            dataContent.setEntry(elementMap);
+            metadataContent.setType("metadata");
+            MapElements metadataMap = new MapElements(doc.getMetadatumId(),"http://femme/dataElements/id/metadata/"+doc.getMetadatumId());
+            metadataContent.setEntry(metadataMap);
+
+            List<Content> contents = asList(content,dataContent,metadataContent);
+
+
+            item.setContent(contents);
             items.add(item);
         }
         channel.setItem(items);

@@ -18,6 +18,9 @@ public class OpenSearchNamespaceMapper extends NamespacePrefixMapper {
         if(OPENASEARCH_URI.equals(namespaceUri)) {
             return OPENASEARCH_PREFIX;
         }
+       else if("http://namespace".equals(namespaceUri) && !requirePrefix) {
+            return "";
+        }
         return suggestion;
     }
 

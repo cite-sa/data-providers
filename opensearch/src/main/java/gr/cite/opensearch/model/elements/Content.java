@@ -14,10 +14,13 @@ public class Content {
     private String elementId;
     private String metadatumId;
 
+
     private Map<String, Object> mapProperty;
 
+    private MapElements entry;
+
   //  @XmlJavaTypeAdapter(MapAdapter.class)
-    public Map<String, Object> getMapProperty() {
+  public Map<String, Object> getMapProperty() {
         return mapProperty;
     }
 
@@ -55,5 +58,14 @@ public class Content {
 
     public void setMetadatumId(String metadatumId) {
         this.metadatumId = metadatumId;
+    }
+
+    @XmlElement(name = "entry")
+    public MapElements getEntry() {
+        return entry;
+    }
+
+    public void setEntry(MapElements entry) {
+        this.entry = entry;
     }
 }
