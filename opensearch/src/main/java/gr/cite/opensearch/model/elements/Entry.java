@@ -13,6 +13,16 @@ public class Entry {
 
     private Link link;
     private String summary;
+    private String box;
+
+    @XmlElement(name = "georss:line")
+    public String getBox() {
+        return box;
+    }
+
+    public void setBox(String box) {
+        this.box = box;
+    }
 
     @XmlElement(name = "id")
     public int getId() {

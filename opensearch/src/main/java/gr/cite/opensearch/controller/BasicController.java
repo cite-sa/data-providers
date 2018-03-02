@@ -65,31 +65,7 @@ public class BasicController {
         return xmlString;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/xml", params={"lat","long"})
-    public @ResponseBody
-    String geoQuery(@RequestParam(value = "q", required = false) String searchTerm, @RequestParam(value="pw", required = false) String startPage,
-                    @RequestParam(value = "lat", required = false) String latitude, @RequestParam(value = "lon", required = false) String longitude,
-                    @RequestParam(value = "radius", required = false) String radius,@RequestParam(value = "format", required = false)String format){
 
-
-        return "geo";
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/xml", params={"bbox"})
-    public @ResponseBody
-    String geoQuery(@RequestParam(value = "q", required = false) String searchTerm, @RequestParam(value="pw", required = false) String startPage,
-                    @RequestParam(value = "bbox", required = false) String bbox,@RequestParam(value = "format", required = false)String format){
-        System.out.println("geoCalled");
-        return "geo";
-    }
-
-    @RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/xml", params={"g"})
-    public @ResponseBody
-    String geometriesQuery(@RequestParam(value = "q", required = false) String searchTerm, @RequestParam(value="pw", required = false) String startPage,
-                    @RequestParam(value = "g", required = false) String geometries,@RequestParam(value = "format", required = false)String format){
-        System.out.println("geoCalled");
-        return "geo";
-    }
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public @ResponseBody OpenSearchResponse findByUrlQuery(@RequestBody Query queryRequest){

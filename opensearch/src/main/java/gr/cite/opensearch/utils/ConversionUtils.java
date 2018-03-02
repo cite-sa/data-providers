@@ -1,13 +1,20 @@
 package gr.cite.opensearch.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gr.cite.opensearch.model.elements.*;
 import gr.cite.opensearch.model.femme.FulltextDocument;
 import gr.cite.opensearch.model.femme.FulltextField;
 import gr.cite.opensearch.model.femme.FulltextSearchQueryMessenger;
+import gr.cite.opensearch.model.geo.CoverageGeo;
+import gr.cite.opensearch.model.opensearch.OpenSearchResponse;
 import gr.cite.opensearch.model.opensearch.OpenSearchResponseAtom;
 import gr.cite.opensearch.model.opensearch.OpenSearchResponseRSS;
 import gr.cite.opensearch.model.opensearch.Query;
+import org.geojson.GeoJsonObject;
+import org.geojson.LngLatAlt;
+import org.geojson.Polygon;
 
+import java.awt.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +25,7 @@ import static java.util.Arrays.asList;
 
 public class ConversionUtils {
     private static MapAdapter mapAdapter = new MapAdapter();
+    private static final ObjectMapper mapper = new ObjectMapper();
 
     public static FulltextSearchQueryMessenger convertSearchtermToFemmeRequest(String searchTerm){
         FulltextSearchQueryMessenger queryMessenger = new FulltextSearchQueryMessenger();
@@ -107,4 +115,83 @@ public class ConversionUtils {
         return response;
     }
 
+    public static OpenSearchResponse convertGeoResponseToOpenSearchResponseAtom(List<CoverageGeo> coverages, Query query) {
+        OpenSearchResponseAtom response = new OpenSearchResponseAtom();
+
+        response.setTotalResults(coverages.size());
+        response.setQuery(query);
+        ArrayList<Entry> entries = new ArrayList<>();
+
+        for (CoverageGeo geo : coverages) {
+            Entry entry = new Entry();
+            Content content = new Content();
+            Content dataContent = new Content();
+            Content metadataContent = new Content();
+            dataContent.setType("element");
+            MapElements elementMap = new MapElements(geo.getId(), "http://femme/dataElements/"+geo.getId());
+            dataContent.setEntry(elementMap);
+            content.setType("geo");
+            content.setId(geo.getId());
+
+            List<Content> contents = asList(content,dataContent,metadataContent);
+            String boxLine="";
+
+            for(List<LngLatAlt> box:  ((Polygon) geo.getGeo()).getCoordinates()){
+                for(LngLatAlt point:  box) {
+                    if (boxLine.equals("")) {
+                        boxLine = String.valueOf(point.getLatitude()) + " " + String.valueOf(point.getLongitude());
+                    } else {
+                        boxLine += " " + String.valueOf(point.getLatitude()) + " " + String.valueOf(point.getLongitude());
+                    }
+                }
+            }
+            entry.setBox(boxLine);
+            entry.setContent(contents);
+            entries.add(entry);
+
+        }
+
+        response.setEntry(entries);
+        return response;
+    }
+
+    public static OpenSearchResponse convertGeoResponseToOpenSearchResponseRSS(List<CoverageGeo> coverages,Query query) {
+        OpenSearchResponseRSS response = new OpenSearchResponseRSS();
+        Channel channel= new Channel();
+        channel.setTotalResults(coverages.size());
+        channel.setQuery(query);
+        ArrayList<Item> items = new ArrayList<>();
+        for (CoverageGeo geo : coverages){
+            Item item = new Item();
+            Content content = new Content();
+            content.setType("fulltext");
+            content.setId(geo.getId());
+
+
+            Content dataContent = new Content();
+            Content metadataContent = new Content();
+            dataContent.setType("element");
+            MapElements elementMap = new MapElements(geo.getId(), "http://femme/dataElements/"+geo.getId());
+            dataContent.setEntry(elementMap);
+
+
+            List<Content> contents = asList(content,dataContent);
+            String boxLine="";
+            for(List<LngLatAlt> box:  ((Polygon) geo.getGeo()).getCoordinates()){
+                for(LngLatAlt point:  box) {
+                    if (boxLine.equals("")) {
+                        boxLine = String.valueOf(point.getLatitude()) + " " + String.valueOf(point.getLongitude());
+                    } else {
+                        boxLine += " " + String.valueOf(point.getLatitude()) + " " + String.valueOf(point.getLongitude());
+                    }
+                }
+            }
+            item.setBox(boxLine);
+            item.setContent(contents);
+            items.add(item);
+        }
+        channel.setItem(items);
+        response.setChannel(channel);
+        return response;
+    }
 }

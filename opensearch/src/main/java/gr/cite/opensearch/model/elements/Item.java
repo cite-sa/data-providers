@@ -17,6 +17,17 @@ public class Item {
     private String source;
     private List<Content> content;
 
+    private String box;
+
+    @XmlElement(name = "georss:line")
+    public String getBox() {
+        return box;
+    }
+
+    public void setBox(String box) {
+        this.box = box;
+    }
+
     @XmlElement(name = "content")
     public List<Content> getContent() {
         return content;
