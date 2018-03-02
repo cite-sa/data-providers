@@ -1,8 +1,5 @@
 package gr.cite.opensearch.controller;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gr.cite.opensearch.model.elements.Format;
 import gr.cite.opensearch.model.opensearch.OpenSearchResponseAtom;
@@ -18,9 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 
 @Controller
 public class BasicController {
