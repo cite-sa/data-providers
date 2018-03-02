@@ -49,8 +49,8 @@ public class ListIdentifiers extends Verb {
 		List<Record> records;
 		try {
 			records = getRecords(repository);
-		} catch (RepositoryRegistrationException e1) {
-			e1.printStackTrace();
+		} catch (RepositoryRegistrationException e) {
+			logger.error(e.getMessage(), e);
 			return null;
 		}
 
@@ -76,19 +76,15 @@ public class ListIdentifiers extends Verb {
 		if (this.hasErrors()) {
 			appendErrorNodes();
 		} else {
-			Element listIdentifiersElement = xmlDocument
-					.createElement("ListIdentifiers");
+			Element listIdentifiersElement = xmlDocument.createElement("ListIdentifiers");
 			for (Record record : records) {
 				if (resumptionToken != null) {
 					ResumptionToken resumptionToken = FlowControl.getInstance()
 							.getResumptionToken(this.resumptionToken);
-					if (resumptionToken.getExpirationDate().isBefore(
-							record.getDatetime())) {
-						continue;
-					}
+					if (resumptionToken.getExpirationDate().isBefore(record.getDatetime())) continue;
 				}
-				listIdentifiersElement.appendChild(xmlDocument.importNode(record
-						.getHeaderAsXMLElement(), true));
+				
+				listIdentifiersElement.appendChild(xmlDocument.importNode(record.getHeaderAsXMLElement(), true));
 			}
 
 			rootElement.appendChild(listIdentifiersElement);

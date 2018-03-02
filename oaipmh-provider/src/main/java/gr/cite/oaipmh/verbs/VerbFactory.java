@@ -4,12 +4,12 @@ import gr.cite.oaipmh.verbs.errors.BadVerbError;
 
 public class VerbFactory {
 	public static class Verbs {
-		public static final String GET_RECORD = "GetRecord";
-		public static final String IDENTIFY = "Identify";
-		public static final String LIST_IDENTIFIERS = "ListIdentifiers";
-		public static final String LIST_METADATA_FORMATS = "ListMetadataFormats";
-		public static final String LIST_RECORDS = "ListRecords";
-		public static final String LIST_SETS = "ListSets";
+		static final String GET_RECORD = "GetRecord";
+		static final String IDENTIFY = "Identify";
+		static final String LIST_IDENTIFIERS = "ListIdentifiers";
+		static final String LIST_METADATA_FORMATS = "ListMetadataFormats";
+		static final String LIST_RECORDS = "ListRecords";
+		static final String LIST_SETS = "ListSets";
 	}
 
 	private VerbFactory() {
