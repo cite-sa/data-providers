@@ -43,6 +43,17 @@ public class Query {
 
     private String outputEncoding;
 
+    private String box;
+
+    @XmlAttribute(name = "geo:box", required = true)
+    public String getBox() {
+        return box;
+    }
+
+    public void setBox(String box) {
+        this.box = box;
+    }
+
     @XmlAttribute(name = "role", required = true)
     public String getRole() {
         return role;

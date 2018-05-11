@@ -5,7 +5,8 @@ import javax.xml.bind.annotation.XmlElement;
 public class MapElements {
     @XmlElement
     public String  key;
-    @XmlElement public Object value;
+    @XmlElement(name = "value")
+    public Object value;
 
     private MapElements() {} //Required by JAXB
 
@@ -14,4 +15,6 @@ public class MapElements {
         this.key   = key;
         this.value = value;
     }
+
+
 }

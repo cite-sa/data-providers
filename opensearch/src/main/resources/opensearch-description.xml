@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
-    <ShortName>Web Femme Search</ShortName>
+    <ShortName>Web FeMME Search</ShortName>
     <Description>Use Example.com to search the Web.</Description>
-    <Tags>example web</Tags>
     <Contact>admin@example.com</Contact>
     <Url type="application/atom+xml"
          template="http://example.com/?q={searchTerms}&amp;pw={startPage?}&amp;format=atom"/>
@@ -10,9 +9,14 @@
          template="http://example.com/?q={searchTerms}&amp;pw={startPage?}&amp;format=rss"/>
     <Url type="text/html"
          template="http://example.com/?q={searchTerms}"/>
+    <Url type="application/atom+xml"
+         template="http://example.com/?q={searchTerms}&pw={startPage?}&bbox={geo:box?}&format=atom"/>
+    <Url type="application/rss+xml"
+         template="http://example.com/?q={searchTerms}&pw={startPage?}&bbox={geo:box?}&format=rss"/>
     <LongName>Example.com Web Search</LongName>
-    <Query role="example" searchTerms="fulltext" totalResults="num" startIndex=""/>
+    <Query role="example" searchTerms="fulltext" totalResults="num" startIndex="0" language="*"/>
     <Language>en-us</Language>
     <OutputEncoding>UTF-8</OutputEncoding>
     <InputEncoding>UTF-8</InputEncoding>
 </OpenSearchDescription>
+
