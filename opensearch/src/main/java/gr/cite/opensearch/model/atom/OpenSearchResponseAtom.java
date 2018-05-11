@@ -1,6 +1,7 @@
-package gr.cite.opensearch.model;
+package gr.cite.opensearch.model.atom;
 
-import gr.cite.opensearch.model.atom.Entry;
+import gr.cite.opensearch.model.OpenSearchResponse;
+import gr.cite.opensearch.model.Query;
 import gr.cite.opensearch.model.rss.Link;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -12,7 +13,21 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlRootElement(name = "feed")
-@XmlType(propOrder = {"title", "link", "updated", "author", "totalResults", "startIndex", "startPage", "query", "inputEncoding", "outputEncoding", "language", "count", "entries"})
+@XmlType(propOrder = {
+	"title",
+	"link",
+	"updated",
+	"author",
+	"totalResults",
+	"startIndex",
+	"startPage",
+	"query",
+	"inputEncoding",
+	"outputEncoding",
+	"language",
+	"count",
+	"entries"
+})
 public class OpenSearchResponseAtom extends OpenSearchResponse {
 	
 	private String title;

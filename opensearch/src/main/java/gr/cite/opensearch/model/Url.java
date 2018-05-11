@@ -1,6 +1,4 @@
-package gr.cite.opensearch.model.elements;
-
-import gr.cite.opensearch.model.elements.RelValue;
+package gr.cite.opensearch.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

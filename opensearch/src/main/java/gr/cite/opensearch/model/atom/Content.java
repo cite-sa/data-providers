@@ -1,13 +1,10 @@
-package gr.cite.opensearch.model.elements;
+package gr.cite.opensearch.model.atom;
 
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.net.URI;
-import java.util.Map;
 
 @XmlRootElement(name = "content")
 public class Content {

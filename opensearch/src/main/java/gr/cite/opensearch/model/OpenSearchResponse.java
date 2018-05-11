@@ -1,14 +1,6 @@
-package gr.cite.opensearch.model.opensearch;
-
-import gr.cite.opensearch.model.elements.Entry;
-import gr.cite.opensearch.model.opensearch.Query;
-import org.springframework.beans.factory.annotation.Value;
+package gr.cite.opensearch.model;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
-import java.util.List;
 
 public class OpenSearchResponse {
 

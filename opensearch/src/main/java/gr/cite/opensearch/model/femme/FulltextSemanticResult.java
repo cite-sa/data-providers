@@ -1,8 +1,7 @@
-package gr.cite.femme.fulltext.engine;
+package gr.cite.opensearch.model.femme;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import gr.cite.femme.fulltext.core.FulltextDocument;
 
 import java.util.List;
 

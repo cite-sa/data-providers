@@ -1,6 +1,4 @@
-package gr.cite.opensearch.model.opensearch;
-
-import gr.cite.opensearch.model.opensearch.Query;
+package gr.cite.opensearch.model;
 
 public class Template {
 

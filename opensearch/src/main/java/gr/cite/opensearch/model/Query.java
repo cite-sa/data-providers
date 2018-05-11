@@ -1,4 +1,4 @@
-package gr.cite.opensearch.model.opensearch;
+package gr.cite.opensearch.model;
 
 import javax.xml.bind.annotation.*;
 import java.math.BigInteger;

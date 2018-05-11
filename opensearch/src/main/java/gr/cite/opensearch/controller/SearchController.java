@@ -23,18 +23,16 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
-//import gr.cite.opensearch.utils.OpenSearchNamespaceMapper;
-
 @Controller
 @ControllerAdvice
-public class BasicController {
+public class SearchController {
 	private static final ObjectMapper mapper = new ObjectMapper();
 	
-	private SearchService SearchService;
+	private SearchService searchService;
 	
 	@Inject
-	public void setSearchService(SearchService SearchService) {
-		this.SearchService = SearchService;
+	public void setSearchService(SearchService searchService) {
+		this.searchService = searchService;
 	}
 	
 	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE, params = "q")
@@ -42,7 +40,7 @@ public class BasicController {
 	public String findQuery(@RequestParam(value = "q", required = false) String searchTerm,
 					 @RequestParam(value = "format", required = false, defaultValue = "atom") String format) throws OpenSearchException {
 		
-		OpenSearchResponse response = SearchService.findBySearchTerm(searchTerm, format);
+		OpenSearchResponse response = searchService.findBySearchTerm(searchTerm, format);
 		
 		try {
 			
@@ -81,6 +79,6 @@ public class BasicController {
 	Query search(@RequestBody Query query) {
 		System.out.println("ive been called with request" + query.toString());
 		
-		return SearchService.findBySearchQuery(query);
+		return searchService.findBySearchQuery(query);
 	}
 }

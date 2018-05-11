@@ -1,6 +1,6 @@
-package gr.cite.opensearch.interafaces;
+package gr.cite.opensearch.interfaces;
 
-import gr.cite.opensearch.model.opensearch.OpenSearchResponse;
+import gr.cite.opensearch.model.OpenSearchResponse;
 
 public interface GeosServiceApi {
     public OpenSearchResponse findGeoByBbox(String bBox, String startPage, String format);

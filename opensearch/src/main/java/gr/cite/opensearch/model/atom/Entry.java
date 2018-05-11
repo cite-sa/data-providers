@@ -1,7 +1,8 @@
-package gr.cite.opensearch.model.elements;
+package gr.cite.opensearch.model.atom;
+
+import gr.cite.opensearch.model.rss.Link;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(propOrder = {"id", "title", "updated", "content", "link", "summary", "box"})

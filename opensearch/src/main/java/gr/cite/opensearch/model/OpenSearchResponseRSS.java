@@ -1,14 +1,10 @@
-package gr.cite.opensearch.model.opensearch;
+package gr.cite.opensearch.model;
 
-import gr.cite.opensearch.model.elements.Channel;
-import gr.cite.opensearch.model.elements.Item;
-import gr.cite.opensearch.model.elements.Link;
-import gr.cite.opensearch.model.elements.Entry;
+import gr.cite.opensearch.model.rss.Channel;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 
 @XmlRootElement(name = "rss")
 public class OpenSearchResponseRSS extends OpenSearchResponse{

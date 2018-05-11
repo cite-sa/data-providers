@@ -1,3 +1,3 @@
-package gr.cite.opensearch.interafaces;
+package gr.cite.opensearch.interfaces;
 
 public interface BackendRepository { }

@@ -1,4 +1,4 @@
-package gr.cite.opensearch.model.elements;
+package gr.cite.opensearch.model.rss;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlType;
