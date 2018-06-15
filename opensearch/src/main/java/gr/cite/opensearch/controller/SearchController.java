@@ -31,23 +31,34 @@ public class SearchController {
 	private SearchService searchService;
 	
 	@Inject
-	public void setSearchService(SearchService searchService) {
+	public SearchController(SearchService searchService) {
 		this.searchService = searchService;
 	}
 	
-	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE, params = "q")
+	@RequestMapping(value = "/search", method = RequestMethod.GET, produces = MediaType.APPLICATION_XML_VALUE)
 	@ResponseBody
-	public String findQuery(@RequestParam(value = "q", required = false) String searchTerm,
-					 @RequestParam(value = "format", required = false, defaultValue = "atom") String format) throws OpenSearchException {
+	public String findQuery(
+					@RequestParam(value = "q", required = false) String searchTerm,
+					@RequestParam(value = "bbox", required = false) String bbox,
+					@RequestParam(value = "pw", required = false) String startPage,
+					@RequestParam(value = "format", required = false, defaultValue = "atom") String format) throws OpenSearchException {
 		
-		OpenSearchResponse response = searchService.findBySearchTerm(searchTerm, format);
+		OpenSearchResponse response;
+		if (searchTerm != null && ! "".equals(searchTerm) && bbox != null && ! "".equals(bbox)) {
+			response = this.searchService.findBySearchTermAndGeoBBox(searchTerm, bbox, startPage, format);
+		} else if (searchTerm != null && ! "".equals(searchTerm)) {
+			response = searchService.findBySearchTerm(searchTerm, format);
+		} else if (bbox != null && ! "".equals(bbox)) {
+			response = this.searchService.findGeoByBbox(bbox, startPage, format);
+		} else {
+			throw new IllegalArgumentException("Either \"q\" or \"bbox\" must be defined");
+		}
 		
 		try {
-			
 			JAXBContext ctx;
-			if (format.equals(Format.ATOM.getFormat())) {
+			if (Format.ATOM.getFormat().equals(format)) {
 				ctx = JAXBContext.newInstance(OpenSearchResponseAtom.class);
-			} else if (format.equals(Format.RSS.getFormat())) {
+			} else if (Format.RSS.getFormat().equals(format)) {
 				ctx = JAXBContext.newInstance(OpenSearchResponseRSS.class);
 			} else {
 				ctx = JAXBContext.newInstance(OpenSearchResponseAtom.class);
@@ -74,11 +85,11 @@ public class SearchController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/query", method = RequestMethod.POST, produces = "application/xml")
+	/*@RequestMapping(value = "/query", method = RequestMethod.POST, produces = "application/xml")
 	public @ResponseBody
 	Query search(@RequestBody Query query) {
 		System.out.println("ive been called with request" + query.toString());
 		
 		return searchService.findBySearchQuery(query);
-	}
+	}*/
 }

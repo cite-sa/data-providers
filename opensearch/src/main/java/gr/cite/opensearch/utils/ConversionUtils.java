@@ -34,7 +34,7 @@ public class ConversionUtils {
 	private String metadataPath;
 	
 	@Inject
-	public ConversionUtils(@Value("${femme.datastore.url}") String femmeServiceUrl,
+	public ConversionUtils(@Value("${femme.datastore.url.external}") String femmeServiceUrl,
 						   @Value("${femme.datastore.dataElements.path}") String dataElementsPath,
 						   @Value("${femme.datastore.metadata.path}") String metadataPath) {
 		this.femmeServiceUrl = femmeServiceUrl;
@@ -66,6 +66,7 @@ public class ConversionUtils {
 		
 		response.setQuery(query);
 		response.setEntries(dataElements.stream().map(this::buildDataElementMetadataEntries).flatMap(entry -> entry).collect(Collectors.toList()));
+		response.setCount(dataElements.size());
 		response.setTotalResults(response.getEntries().size());
 		
 		return response;

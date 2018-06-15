@@ -1,14 +1,16 @@
 spring.jmx.enabled=true
 
-femme.datastore.url=http://localhost:8081/femme
-femme.datastore.url.external=http://earthserver-devel.vhosts.cite.gr/femme
+server.port=8087
+
+femme.datastore.url=http://localhost:8080/femme
+femme.datastore.url.external=http://localhost:8080/femme
 femme.datastore.dataElements.path=dataElements
 femme.datastore.metadata.path=metadata
 
 femme.search.url=http://localhost:8081/femme-fulltext
 femme.search.elements.path=elements
 
-femme.geo.url=http://localhost:8081/femme-geo
+femme.geo.url=http://localhost:8083/femme-geo
 femme.geo.bbox.path=coverages/bbox
 
 opensearch.namespace=http://a9.com/-/spec/opensearch/1.1/

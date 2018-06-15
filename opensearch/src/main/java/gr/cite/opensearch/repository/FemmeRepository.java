@@ -2,6 +2,7 @@ package gr.cite.opensearch.repository;
 
 import gr.cite.femme.client.FemmeClient;
 import gr.cite.femme.client.FemmeException;
+import gr.cite.femme.client.api.FemmeClientAPI;
 import gr.cite.femme.core.model.DataElement;
 import gr.cite.opensearch.interfaces.BackendRepository;
 import gr.cite.opensearch.model.femme.FulltextDocument;
@@ -30,7 +31,7 @@ public class FemmeRepository implements BackendRepository {
 	
 	private String searchPath;
 	private WebTarget searchClient;
-	private FemmeClient femmeClient;
+	private FemmeClientAPI femmeClient;
 	
 	@Inject
 	public FemmeRepository(@Value("${femme.search.url}") String searchUrl, @Value("${femme.search.elements.path}") String searchPath,
@@ -40,24 +41,15 @@ public class FemmeRepository implements BackendRepository {
 		this.femmeClient = new FemmeClient(datastoreUrl);
 	}
 	
-	public List<DataElement> findBySearchTerm(String searchTerm) {
+	public List<FulltextDocument> findBySearchTerm(String searchTerm) {
 		FulltextSearchQueryMessenger queryMessenger = ConversionUtils.convertSearchTermToFemmeRequest(searchTerm);
 		
-		List<FulltextDocument> results = this.searchClient.path(this.searchPath).request(MediaType.APPLICATION_JSON)
+		return this.searchClient.path(this.searchPath).request(MediaType.APPLICATION_JSON)
 								.post(Entity.entity(queryMessenger, MediaType.APPLICATION_JSON), new GenericType<List<FulltextSemanticResult>>() {})
 			.stream().map(FulltextSemanticResult::getFulltextResult).collect(Collectors.toList());
-		
-		return results.stream().map(result -> {
-			try {
-				return this.femmeClient.getDataElementById(result.getElementId());
-			} catch (FemmeException e) {
-				logger.error(e.getMessage());
-				return null;
-			}
-		}).filter(Objects::nonNull).collect(Collectors.toList());
-		
-		
-		
-		
+	}
+	
+	public DataElement getDataElementById(String id) throws FemmeException {
+		return this.femmeClient.getDataElementById(id);
 	}
 }

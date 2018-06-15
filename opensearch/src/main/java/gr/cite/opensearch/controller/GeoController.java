@@ -1,6 +1,7 @@
 package gr.cite.opensearch.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gr.cite.opensearch.OpenSearchException;
 import gr.cite.opensearch.model.Format;
 import gr.cite.opensearch.model.OpenSearchResponse;
 import gr.cite.opensearch.model.atom.OpenSearchResponseAtom;
@@ -8,13 +9,16 @@ import gr.cite.opensearch.model.OpenSearchResponseRSS;
 import gr.cite.opensearch.service.GeoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.inject.Inject;
+import javax.ws.rs.DefaultValue;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -30,8 +34,8 @@ public class GeoController {
 	private static final Logger logger = LoggerFactory.getLogger(GeoController.class);
 	
 	
-	@Autowired
-	public void setSearchService(GeoService geoService) {
+	@Inject
+	public GeoController(GeoService geoService) {
 		this.geoService = geoService;
 	}
 	
@@ -64,17 +68,19 @@ public class GeoController {
 	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET, produces = "application/xml", params = {"bbox"})
-	public @ResponseBody
-	String geoQuery(@RequestParam(value = "q", required = false) String searchTerm, @RequestParam(value = "pw", required = false) String startPage,
-					@RequestParam(value = "bbox", required = false) String bbox, @RequestParam(value = "format", required = false) String format) {
+	public @ResponseBody String geoQuery(
+						@RequestParam(value = "q", required = false) String searchTerm,
+						@RequestParam(value = "pw", required = false) String startPage,
+						@RequestParam(value = "bbox", required = false) String bbox,
+						@RequestParam(value = "format", required = false, defaultValue = "atom") String format) throws OpenSearchException {
+		
 		String xmlString = "";
 		
-		OpenSearchResponse response = geoService.findGeoByBbox(bbox, startPage, format);
+		OpenSearchResponse response = this.geoService.findGeoByBbox(bbox, startPage, format);
+		
 		try {
 			JAXBContext ctx = null;
-			if (format == null) {
-				ctx = JAXBContext.newInstance(OpenSearchResponseAtom.class);
-			} else if (format.equals(Format.RSS.getFormat())) {
+			 if (format.equals(Format.RSS.getFormat())) {
 				ctx = JAXBContext.newInstance(OpenSearchResponseRSS.class);
 			} else if (format.equals(Format.ATOM.getFormat())) {
 				ctx = JAXBContext.newInstance(OpenSearchResponseAtom.class);
@@ -89,7 +95,8 @@ public class GeoController {
 			xmlString = sw.toString();
 			
 		} catch (JAXBException e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
+			throw new OpenSearchException("Error serializing response", e);
 		}
 		
 		return xmlString;

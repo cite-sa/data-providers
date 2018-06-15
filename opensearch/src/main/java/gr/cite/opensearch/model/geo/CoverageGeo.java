@@ -1,29 +1,47 @@
 package gr.cite.opensearch.model.geo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import gr.cite.femme.core.geo.InstantSerializer;
 import org.geojson.GeoJsonObject;
 
 import java.time.Instant;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class CoverageGeo {
-
-	@JsonProperty("_id")
+	
+	@JsonProperty("id")
 	private String id;
-
-	@JsonProperty("coverageId")
-	private String coverageId;
-
+	
+	@JsonProperty("name")
+	private String name;
+	
 	@JsonProperty("created")
+	@JsonSerialize(using = InstantSerializer.class)
+	@JsonDeserialize(using = InstantDeserializer.class)
 	private Instant created;
-
+	
 	@JsonProperty("modified")
+	@JsonSerialize(using = InstantSerializer.class)
+	@JsonDeserialize(using = InstantDeserializer.class)
 	private Instant modified;
-
+	
 	@JsonProperty("geometry")
 	private GeoJsonObject geo;
-
+	
 	@JsonProperty("serverId")
 	private String serverId;
+	
+	@JsonProperty("dataElementId")
+	private String dataElementId;
+	
+	@JsonProperty("crs")
+	private String crs;
+	
+	@JsonProperty("serverName")
+	private String serverName;
 	
 	public String getId() {
 		return id;
@@ -33,12 +51,12 @@ public class CoverageGeo {
 		this.id = id;
 	}
 	
-	public String getCoverageId() {
-		return coverageId;
+	public String getName() {
+		return name;
 	}
 	
-	public void setCoverageId(String coverageId) {
-		this.coverageId = coverageId;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	public Instant getCreated() {
@@ -57,11 +75,11 @@ public class CoverageGeo {
 		this.modified = modified;
 	}
 	
-	public GeoJsonObject  getGeo() {
+	public GeoJsonObject getGeo() {
 		return geo;
 	}
 	
-	public void setGeo(GeoJsonObject  geo) {
+	public void setGeo(GeoJsonObject geo) {
 		this.geo = geo;
 	}
 	
@@ -71,5 +89,29 @@ public class CoverageGeo {
 	
 	public void setServerId(String serverId) {
 		this.serverId = serverId;
+	}
+	
+	public String getDataElementId() {
+		return dataElementId;
+	}
+	
+	public void setDataElementId(String dataElementId) {
+		this.dataElementId = dataElementId;
+	}
+	
+	public String getCrs() {
+		return crs;
+	}
+	
+	public void setCrs(String crs) {
+		this.crs = crs;
+	}
+	
+	public String getServerName() {
+		return serverName;
+	}
+	
+	public void setServerName(String serverName) {
+		this.serverName = serverName;
 	}
 }

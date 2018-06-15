@@ -1,6 +1,7 @@
 package gr.cite.opensearch.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gr.cite.opensearch.OpenSearchException;
 import gr.cite.opensearch.model.geo.CoverageGeo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -14,6 +15,11 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.inject.Inject;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,47 +28,22 @@ import java.util.List;
 public class GeoRepository {
 	private static final ObjectMapper mapper = new ObjectMapper();
 	
-	private String geoUrl;
+	private WebTarget geoService;
 	private String geoBBoxPath;
 	
 	@Inject
 	public GeoRepository(@Value("${femme.geo.url}") String geoUrl, @Value("${femme.geo.bbox.path}") String geoBBoxPath) {
-		this.geoUrl = geoUrl;
 		this.geoBBoxPath = geoBBoxPath;
+		this.geoService = ClientBuilder.newClient().target(geoUrl);
 	}
 	
-	public List<CoverageGeo> findGeoByBbox(String bBox, String startPage) {
-		List<CoverageGeo> coverages = new ArrayList<>();
+	public List<CoverageGeo> findGeoByBbox(String bBox, String startPage) throws OpenSearchException {
+		Response response = this.geoService.path(this.geoBBoxPath).queryParam("bbox", bBox).request().get();
 		
-		RestTemplate restTemplate = new RestTemplate();
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		// HttpEntity<Object> request = new HttpEntity<>(queryMessenger, headers);
-		
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(geoUrl + "/" + geoBBoxPath)
-										   .queryParam("bbox", bBox);
-//        HttpEntity<Object> request = new HttpEntity<>(builder, headers);
-
-//        ResponseEntity<CoverageGeo[]> responseEntity = restTemplate.getForEntity(
-//                backendUrl +searchPath,
-//                request, CoverageGeo[].class);
-		HttpEntity<?> entity = new HttpEntity<>(headers);
-		
-		ResponseEntity<CoverageGeo[]> responseEntity = restTemplate.exchange(
-			builder.build().encode().toUri(),
-			HttpMethod.GET,
-			entity,
-			CoverageGeo[].class);
-		
-		if (responseEntity.getStatusCode() == HttpStatus.OK) {
-			coverages = Arrays.asList(responseEntity.getBody());
-			for (CoverageGeo geo : coverages) {
-				System.out.println("-" + geo.getId());
-			}
-			return coverages;
+		if (response.getStatus() != Response.Status.OK.getStatusCode()) {
+			throw new OpenSearchException("Error on querying geo service: " + response.readEntity(String.class));
 		}
 		
-		return coverages;
+		return response.readEntity(new GenericType<List<CoverageGeo>>(){});
 	}
 }
